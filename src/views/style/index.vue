@@ -12,7 +12,7 @@
     >
       <el-table-column prop="id" label="ID" width="58" align="center"></el-table-column>
       <el-table-column prop="name" label="风格名称" align="center"></el-table-column>
-      <el-table-column label="小图" align="center">
+      <el-table-column label="风格小图" align="center">
         <template slot-scope="{row}">
           <el-image
             style="width: 100px; "
@@ -21,7 +21,7 @@
             :preview-src-list="[row.smallPicture]"></el-image>
         </template>
       </el-table-column>
-      <el-table-column label="大图" align="center">
+      <el-table-column label="风格大图" align="center">
         <template slot-scope="{row}">
           <el-image
             style="width: 200px;"
@@ -30,38 +30,41 @@
             :preview-src-list="[row.bigPicture]"></el-image>
         </template>
       </el-table-column>
+      <el-table-column prop="status" label="风格状态" align="center">
+         <template slot-scope="{row}">
+          <span v-if="row.status === 1" style="color: green">已上架</span>
+          <span v-else style="color: red">已下架</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" fixed="right">
         <template slot-scope="{row}">
           <el-button type="primary" @click="handleEdit(row)" size="mini">编辑</el-button>
-          <el-button type="danger" @click="handleDel(row)" size="mini">删除</el-button>
+          <el-button :type="row.status === 1 ? 'danger' : 'success'" @click="handleOnOff(row)"  size="mini">
+            {{ row.status === 1 ? '下架' : '上架' }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
 
-
-    <CreateDialog 
+    <StyleDialog 
       :dialogFormVisible.sync="createDialogFormVisible" 
       :params="createParams" 
-      @getList="getList"
+      @callback="getList"
       />
   </div>
 </template>
 
 <script>
-import { productStyleApi } from '@/api/style'
-import CreateDialog from './components/createDialog'
+import { productStyleApi, productStyleOnofflineApi } from '@/api/style'
+import StyleDialog from './components/styleDialog'
 
 export default {
   name: 'IndexStyle',
   components: {
-    CreateDialog
+    StyleDialog
   },
   data() {
     return {
-      listQuery: {
-        page: 1,
-        pageSize: 20,
-      },
       list: null, // 列表数据
       total: 0,
       listLoading: false,
@@ -78,12 +81,12 @@ export default {
     getList() {
       this.listLoading = true
 
-      productStyleApi({ ...this.listQuery }).then(res => {
+      productStyleApi({}).then(res => {
         const { data } = res
         this.list = data.styles
         this.listLoading = false
       }).catch(error => {
-        // console.log(error)
+        console.log(error)
         this.listLoading = false
       })
     },
@@ -95,8 +98,31 @@ export default {
       }
     },
 
-    handleDel(row) {
-      // todo sth
+    handleOnOff(row) {
+      const isOnline = row.status === 1
+      const word = isOnline ? '下架' : '上架'
+
+      this.$confirm(`确认${word}这个风格吗?`, '警告', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(async() => {
+          productStyleOnofflineApi({ 
+            id: row.id,
+            status: row.staus
+          }).then(res => {
+            this.$message({
+              type: 'success',
+              message: `${word}操作成功！`
+            })
+
+            // @TODO
+            const { data } = res
+            this.list = data.styles
+            // this.getList()
+          }).catch(error => {})
+        }).catch(() => {})
     },
 
     handleCreate() {

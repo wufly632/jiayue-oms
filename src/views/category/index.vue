@@ -12,31 +12,38 @@
     >
       <el-table-column prop="id" label="ID" width="58" align="center"></el-table-column>
       <el-table-column prop="name" label="类目名称" align="center"></el-table-column>
+      <el-table-column prop="status" label="类目状态" align="center">
+        <template slot-scope="{row}">
+          <span v-if="row.status === 1" style="color: green">已上架</span>
+          <span v-else style="color: red">已下架</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" fixed="right">
         <template slot-scope="{row}">
           <el-button type="primary" @click="handleEdit(row)" size="mini">编辑</el-button>
-          <el-button type="danger" @click="handleDel(row)"  size="mini">删除</el-button>
+          <el-button :type="row.status === 1 ? 'danger' : 'success'" @click="handleOnOff(row)"  size="mini">
+            {{ row.status === 1 ? '下架' : '上架' }}
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
 
-
-    <CreateDialog 
+    <CategoryDialog 
       :dialogFormVisible.sync="createDialogFormVisible" 
       :params="createParams" 
-      @getList="getList"
+      @callback="getList"
       />
   </div>
 </template>
 
 <script>
-import { productStyleApi } from '@/api/style'
-import CreateDialog from './components/createDialog'
+import { productTypesApi, productTypesOnofflineApi } from '@/api/category'
+import CategoryDialog from './components/categoryDialog'
 
 export default {
   name: 'IndexCategory',
   components: {
-    CreateDialog
+    CategoryDialog
   },
   data() {
     return {
@@ -55,7 +62,7 @@ export default {
     getList() {
       this.listLoading = true
 
-      productStyleApi({ ...this.listQuery }).then(res => {
+      productTypesApi({}).then(res => {
         const { data } = res
         this.list = data.styles
         this.listLoading = false
@@ -72,8 +79,31 @@ export default {
         id: row.id
       }
     },
-    handleDel(row) {
-      // todo sth
+    handleOnOff(row) {
+      const isOnline = row.status === 1
+      const word = isOnline ? '下架' : '上架'
+
+      this.$confirm(`确认${word}这个分类吗?`, '警告', {
+        confirmButtonText: '确认',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+        .then(async() => {
+          productTypesOnofflineApi({ 
+            id: row.id,
+            status: row.staus
+          }).then(res => {
+            this.$message({
+              type: 'success',
+              message: `${word}操作成功！`
+            })
+
+            // @TODO
+            const { data } = res
+            this.list = data.styles
+            // this.getList()
+          }).catch(error => {})
+        }).catch(() => {})
     },
 
     handleCreate() {
