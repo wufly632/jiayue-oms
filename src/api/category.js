@@ -21,7 +21,7 @@ export function productTypesSaveApi(data) {
 // 上下架
 export function productTypesOnofflineApi(data) {
   return request({
-    url: '/api/product/types/onoffline',
+    url: '/api/backend/product/types/onoffline',
     method: 'POST',
     data
   })

@@ -62,7 +62,7 @@ service.interceptors.response.use(
     const res = response.data
     const { code } = res
     // if the custom code is not 0, it is judged as an error.
-    if (status !== 200) {
+    if (code !== 20000) {
       let errorMsg = (res.message || 'System error') + `，Interface：${config.url}，Code: ${res.code} ，TraceId: ${response.headers['pb-request-id']}`
 
       Message({
@@ -71,7 +71,7 @@ service.interceptors.response.use(
         duration: 5 * 1000
       })
 
-      if (code === 40001) {
+      if (code === 40100) {
         // 清理token，返回登录页
         store.dispatch('user/resetToken').then(() => {
           location.reload()

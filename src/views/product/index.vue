@@ -15,19 +15,22 @@
         <template slot-scope="{row}">
           <el-image
             style="width: 100px; height: 100px"
-            :src="row.smallPicture"
+            :src="row.mainPicture"
             fit="fill"
-            :preview-src-list="[row.bigPicture]"></el-image>
+            :preview-src-list="[row.mainPicture]"></el-image>
         </template>
       </el-table-column>
       <el-table-column prop="name" label="标题" align="center"></el-table-column>
+      <el-table-column prop="productModel" label="编码" align="center"></el-table-column>
+      <el-table-column prop="styleName" label="风格" align="center"></el-table-column>
+      <el-table-column prop="typeName" label="产品类别" align="center"></el-table-column>
       <el-table-column label="Operation" align="center" fixed="right">
         <template slot-scope="{row}">
           <router-link :to="{name:'detailProduct',params:{id: row.id}}"  style="margin: 0 10px;">
             <el-button type="primary" size="mini">编辑</el-button>
           </router-link>
          
-          <el-button type="danger" size="mini">删除</el-button>
+          <el-button type="danger" size="mini" @click="handleDelete(row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -38,7 +41,7 @@
 
 <script>
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-import { productStyleApi } from '@/api/product'
+import { productListApi,productDeleteApi } from '@/api/product'
 
 export default {
   name: 'IndexProduct',
@@ -64,10 +67,10 @@ export default {
     getList() {
       this.listLoading = true
 
-      productStyleApi({ ...this.listQuery }).then(res => {
+      productListApi({ ...this.listQuery }).then(res => {
         const { data } = res
-        this.list = data.styles
-        this.total = data.meta.pagination.total
+        this.list = data.products
+        this.total = data.total
         this.listLoading = false
       }).catch(error => {
         // console.log(error)
@@ -96,7 +99,19 @@ export default {
     handleCreate() {
       this.$router.push('/product/create')
     },
+    handleDelete(id) {
+      this.listLoading = true
 
+      productDeleteApi({ id:id }).then(res => {
+        this.listLoading = false
+        this.$message.success('删除成功')
+        this.getList()
+      }).catch(error => {
+        // console.log(error)
+        this.listLoading = false
+        this.$message.error('删除失败')
+      })
+    }
   }
 }
 </script>

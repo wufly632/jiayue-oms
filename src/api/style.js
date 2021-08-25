@@ -21,7 +21,7 @@ export function productStyleSaveApi(data) {
 // 上下架
 export function productStyleOnofflineApi(data) {
   return request({
-    url: '/api/product/style/onoffline',
+    url: '/api/backend/product/style/onoffline',
     method: 'POST',
     data
   })

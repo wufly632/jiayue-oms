@@ -45,7 +45,8 @@ module.exports = {
       //   app[m.type](m.url, mock[m.name])
       // })
     },
-    proxy: 'http://127.0.0.1:4523/mock/411304',
+    // proxy: 'http://127.0.0.1:4523/mock/411304',
+    proxy: 'http://127.0.0.1:9554',
 
     // hot: true,
     // disableHostCheck: true,

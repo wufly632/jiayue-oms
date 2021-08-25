@@ -32,15 +32,15 @@ const mutations = {
 
 const actions = {
   login({ commit }, userInfo) {
-    const { email, password } = userInfo
+    const { mobile, password } = userInfo
     return new Promise((resolve, reject) => {
       // 接口
-      loginApi({ email: email.trim(), password: password }).then(res => {
-        // const { data } = res
+      loginApi({ mobile: mobile.trim(), password: password }).then(res => {
+        const { data } = res
         // commit('SET_TOKEN', data.token)
-        commit('SET_TOKEN', 'TODO')
+        commit('SET_TOKEN', data.accessToken)
         // commit('SET_ROLES', ['admin']) // TODO
-        setToken('TODO')
+        setToken(data.accessToken)
         // setToken(data.token)
         commit('SET_NAME', 'Jiayue')
         commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')

@@ -17,13 +17,13 @@ export function productStyleApi(params) {
 //   })
 // }
 
-// export function getProductList(query) {
-//   return request({
-//     url: '/api/product/list',
-//     method: 'get',
-//     params: query
-//   })
-// }
+export function productListApi(query) {
+  return request({
+    url: '/api/backend/product/list',
+    method: 'get',
+    params: query
+  })
+}
 
 // export function getAllAttributes() {
 //   return request({
@@ -48,21 +48,28 @@ export function productStyleApi(params) {
 //   })
 // }
 
-// export function ProductSave(data) {
-//   return request({
-//     url: '/api/product/save',
-//     method: 'POST',
-//     data
-//   })
-// }
+export function productSaveApi(data) {
+  return request({
+    url: '/api/backend/product/save',
+    method: 'POST',
+    data
+  })
+}
 
-// export function fetchProductInfo(query) {
-//   return request({
-//     url: '/api/product/info',
-//     method: 'get',
-//     params: query
-//   })
-// }
+export function productDeleteApi(data) {
+  return request({
+    url: '/api/backend/product/delete',
+    method: 'POST',
+    data
+  })
+}
+
+export function fetchProductInfo(query) {
+  return request({
+    url: "/api/backend/product/detail/"+query.id,
+    method: 'get',
+  })
+}
 
 // export function productExportApi(query) {
 //   return request({

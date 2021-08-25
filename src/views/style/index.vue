@@ -99,6 +99,7 @@ export default {
     },
 
     handleOnOff(row) {
+      console.log(row,"row")
       const isOnline = row.status === 1
       const word = isOnline ? '下架' : '上架'
 
@@ -110,7 +111,7 @@ export default {
         .then(async() => {
           productStyleOnofflineApi({ 
             id: row.id,
-            status: row.staus
+            status: 3-row.status
           }).then(res => {
             this.$message({
               type: 'success',
@@ -118,8 +119,9 @@ export default {
             })
 
             // @TODO
-            const { data } = res
-            this.list = data.styles
+            // const { data } = res
+            // this.list = data.styles
+            row.status = 3-row.status
             // this.getList()
           }).catch(error => {})
         }).catch(() => {})

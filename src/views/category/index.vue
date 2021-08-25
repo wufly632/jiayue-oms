@@ -12,6 +12,7 @@
     >
       <el-table-column prop="id" label="ID" width="58" align="center"></el-table-column>
       <el-table-column prop="name" label="类目名称" align="center"></el-table-column>
+      <el-table-column prop="enName" label="类目英文名称" align="center"></el-table-column>
       <el-table-column prop="status" label="类目状态" align="center">
         <template slot-scope="{row}">
           <span v-if="row.status === 1" style="color: green">已上架</span>
@@ -47,7 +48,7 @@ export default {
   },
   data() {
     return {
-      list: null, // 列表数据
+      list: [], // 列表数据
       listLoading: false,
 
       createDialogFormVisible: false,
@@ -64,7 +65,7 @@ export default {
 
       productTypesApi({}).then(res => {
         const { data } = res
-        this.list = data.styles
+        this.list = data.types
         this.listLoading = false
       }).catch(error => {
         // console.log(error)
@@ -76,6 +77,7 @@ export default {
       this.createDialogFormVisible = true
       this.createParams = {
         name: row.name,
+        enName: row.enName,
         id: row.id
       }
     },
@@ -91,7 +93,7 @@ export default {
         .then(async() => {
           productTypesOnofflineApi({ 
             id: row.id,
-            status: row.staus
+            status: 3-row.status
           }).then(res => {
             this.$message({
               type: 'success',
@@ -99,8 +101,9 @@ export default {
             })
 
             // @TODO
-            const { data } = res
-            this.list = data.styles
+            // const { data } = res
+            // this.list = data.styles
+            row.status = 3-row.status
             // this.getList()
           }).catch(error => {})
         }).catch(() => {})

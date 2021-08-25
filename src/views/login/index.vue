@@ -6,15 +6,15 @@
         <h3 class="title">迦悦后台系统</h3>
       </div>
 
-      <el-form-item prop="email">
+      <el-form-item prop="mobile">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
         <el-input
-          ref="email"
-          v-model="loginForm.email"
-          placeholder="Email"
-          name="email"
+          ref="mobile"
+          v-model="loginForm.mobile"
+          placeholder="mobile"
+          name="mobile"
           type="text"
           tabindex="1"
           autocomplete="on"
@@ -54,8 +54,8 @@
 export default {
   name: 'Login',
   data() {
-    // const validateEmail = (rule, value, callback) => {
-    //   if (!validEmail(value)) {
+    // const validatemobile = (rule, value, callback) => {
+    //   if (!validmobile(value)) {
     //     callback(new Error('请输入正确的用户名'))
     //   } else {
     //     callback()
@@ -70,11 +70,11 @@ export default {
     }
     return {
       loginForm: {
-        email: 'fei.wu@transsnet.com',
+        mobile: '18457977915',
         password: 'admin123'
       },
       loginRules: {
-        // email: [{ required: true, trigger: 'blur', validator: validateEmail }],
+        // mobile: [{ required: true, trigger: 'blur', validator: validatemobile }],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
@@ -100,8 +100,8 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
-    if (this.loginForm.email === '') {
-      this.$refs.email.focus()
+    if (this.loginForm.mobile === '') {
+      this.$refs.mobile.focus()
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }

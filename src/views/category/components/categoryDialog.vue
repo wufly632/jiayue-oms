@@ -5,7 +5,7 @@
         <el-form-item label="类目名称" prop="name">
           <el-input v-model="params.name"></el-input>
         </el-form-item>
-        <el-form-item label="类目名称" prop="enName">
+        <el-form-item label="类目英文名称" prop="enName">
           <el-input v-model="params.enName"></el-input>
         </el-form-item>
       </el-form>
