@@ -24,7 +24,7 @@
       <el-table-column prop="productModel" label="编码" align="center"></el-table-column>
       <el-table-column prop="styleName" label="风格" align="center"></el-table-column>
       <el-table-column prop="typeName" label="产品类别" align="center"></el-table-column>
-      <el-table-column label="Operation" align="center" fixed="right">
+      <el-table-column label="操作" align="center" fixed="right">
         <template slot-scope="{row}">
           <router-link :to="{name:'detailProduct',params:{id: row.id}}"  style="margin: 0 10px;">
             <el-button type="primary" size="mini">编辑</el-button>
@@ -109,7 +109,6 @@ export default {
       }).catch(error => {
         // console.log(error)
         this.listLoading = false
-        this.$message.error('删除失败')
       })
     }
   }

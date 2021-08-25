@@ -181,6 +181,32 @@ export const asyncRoutes = [
     ]
   },
 
+  {
+    path: '/fave',
+    component: Layout,
+    redirect: '/fave/index',
+    // alwaysShow: true,
+    name: 'Fave',
+    meta: {
+      title: '收藏管理',
+      icon: 'form',
+      roles: ['admin', 'editor']
+    },
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/fave/index'),
+        name: 'indexFave',
+        hidden: true,
+        meta: {
+          title: '收藏列表',
+          roles: ['admin', 'editor'],
+          activeMenu: '/fave'
+        }
+      }
+    ]
+  },
+
 
   {
     path: '/mobile',
@@ -195,11 +221,31 @@ export const asyncRoutes = [
     },
     children: [
       {
-        path: 'case',
-        component: () => import('@/views/mobile/case'),
-        name: 'caseMobile',
+        path: 'case/list',
+        component: () => import('@/views/mobile/caseList'),
+        name: 'caseListMobile',
         meta: {
-          title: '精品案例',
+          title: '精品案例列表',
+          roles: ['admin', 'editor'],
+        }
+      },
+      {
+        path: 'case/detail/:id',
+        component: () => import('@/views/mobile/caseDetail'),
+        name: 'caseDetailMobile',
+        hidden: true,
+        meta: {
+          title: '精品案例详情',
+          roles: ['admin', 'editor'],
+        }
+      },
+      {
+        path: 'case/create',
+        component: () => import('@/views/mobile/caseDetail'),
+        name: 'caseCreateMobile',
+        hidden: true,
+        meta: {
+          title: '精品案例创建',
           roles: ['admin', 'editor'],
         }
       },

@@ -18,6 +18,11 @@ import './permission' // permission control
 import * as filters from './filters' // global filters
 import './utils/checkWebp'
 
+import VueUeditorWrap from 'vue-ueditor-wrap';
+
+// 或者在 main.js 里将它注册为全局组件
+Vue.component('vue-ueditor-wrap', VueUeditorWrap);
+
 Vue.use(Element, {
   size: localStorage.getItem('size') || 'medium',
   locale: enLang // 如果使用中文，无需设置，请删除
