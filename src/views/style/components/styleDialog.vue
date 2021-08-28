@@ -12,6 +12,7 @@
             :on-success="handleSmallImageSuccess"
             :before-upload="beforeImageUpload"
             accept="image/gif, image/jpeg, image/png"
+            :headers="uploadHeaders"
             :show-file-list="false">
             <img v-if="params.smallPicture" :src="params.smallPicture" width="100%" />
             <i v-else class="el-icon-plus"></i>
@@ -41,6 +42,7 @@
 
 <script>
 import { productStyleSaveApi } from '@/api/style'
+import { getToken } from "@/utils/auth"; // get token from localStorage
 
 export default {
   components: {},
@@ -65,8 +67,14 @@ export default {
         smallPicture: [{ required: true, message: '风格小图不能为空', trigger: 'blur' }],
         bigPicture: [{ required: true, message: '风格大图不能为空', trigger: 'blur' }]
       },
-      submitLoading: false
+      submitLoading: false,
+      uploadHeaders: {},
     }
+  },
+  mounted() {
+    this.uploadHeaders = {
+      Authorization: "bearer" + getToken(),
+    };
   },
   methods: {
     // 上传图片 - 上传中 
@@ -96,6 +104,7 @@ export default {
 
     handleSmallImageSuccess(res, file) {
       const { data } = res
+      console.log(data)
       if (data && data.url) {
         this.params.smallPicture = data.url
       }
