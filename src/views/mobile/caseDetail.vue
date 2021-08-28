@@ -74,30 +74,9 @@ import { mapGetters } from "vuex";
 import { fetchCaseInfo, caseSaveApi } from "@/api/case";
 import { getToken } from "@/utils/auth"; // get token from localStorage
 
-import UploadEdit from "@/components/Upload/Edit";
-
-//获取元素在数组的下标
-Array.prototype.indexOf = function (val) {
-  for (var i = 0; i < this.length; i++) {
-    if (this[i] == val) {
-      return i;
-    }
-  }
-  return -1;
-};
-
-//根据数组的下标，删除该下标的元素
-Array.prototype.remove = function (val) {
-  var index = this.indexOf(val);
-  if (index > -1) {
-    this.splice(index, 1);
-  }
-};
-
 export default {
-  name: "productDetail",
+  name: "caseDetail",
   components: {
-    UploadEdit,
   },
   data() {
     return {
