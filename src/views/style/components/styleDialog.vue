@@ -104,9 +104,9 @@ export default {
 
     handleSmallImageSuccess(res, file) {
       const { data } = res
-      console.log(data)
       if (data && data.url) {
         this.params.smallPicture = data.url
+        console.log(data, this.params.smallPicture, '小图上传成功')
       }
     },
     handleBigImageSuccess(res, file) {

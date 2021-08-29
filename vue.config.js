@@ -46,7 +46,7 @@ module.exports = {
       // })
     },
     // proxy: 'http://127.0.0.1:4523/mock/411304',
-    proxy: 'http://127.0.0.1:9554',
+    proxy: 'http://jiayue-oms.wufly.cn',
 
     // hot: true,
     // disableHostCheck: true,

@@ -1,7 +1,7 @@
 <template>
   <div class="category-dialog">
     <el-dialog title="类目" :visible.sync="dialogFormVisible" width="600px" :before-close="handleClose">
-      <el-form ref="categoryForm" :rules="rules" :model="params" label-position="left" label-width="80px">
+      <el-form ref="categoryForm" :rules="rules" :model="params" label-position="left" label-width="110px">
         <el-form-item label="类目名称" prop="name">
           <el-input v-model="params.name"></el-input>
         </el-form-item>

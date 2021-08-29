@@ -129,7 +129,11 @@ export default {
 
     handleCreate() {
       this.createDialogFormVisible = true
-      this.createParams = {}
+      this.createParams = {
+        name: '',
+        smallPicture: '',
+        bigPicture: ''
+      }
     },
 
   }
