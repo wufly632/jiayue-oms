@@ -9,8 +9,9 @@
       :data="list"
       border
       style="width: 100%;"
+      @cell-mouse-enter="handleRow"
     >
-      <el-table-column prop="id" label="ID" width="58" align="center"></el-table-column>
+      <el-table-column prop="sort" label="序号" width="58" align="center"></el-table-column>
       <el-table-column prop="name" label="类目名称" align="center"></el-table-column>
       <el-table-column prop="enName" label="类目英文名称" align="center"></el-table-column>
       <el-table-column prop="status" label="类目状态" align="center">
@@ -38,8 +39,9 @@
 </template>
 
 <script>
-import { productTypesApi, productTypesOnofflineApi } from '@/api/category'
+import { productTypesApi, productTypesOnofflineApi, productTypesSaveApi } from '@/api/category'
 import CategoryDialog from './components/categoryDialog'
+import Sortable from 'sortablejs'
 
 export default {
   name: 'IndexCategory',
@@ -52,13 +54,16 @@ export default {
       listLoading: false,
 
       createDialogFormVisible: false,
-      createParams: {}
+      createParams: {},
+      hoverRowParams: -1
     }
   },
   created() {
     this.getList()
   },
-
+  mounted() {
+    this.rowDrop()
+  },
   methods: {
     getList() {
       this.listLoading = true
@@ -113,7 +118,43 @@ export default {
       this.createDialogFormVisible = true
       this.createParams = {}
     },
+    handleRow(e) {
+      this.hoverRowParams = e
+    },
+    //行拖拽
+    rowDrop() {
+      const el = document.querySelector('.el-table__body-wrapper tbody')
+      
+      Sortable.create(el, {
+        disabled: false, // 是否开启拖拽
+        ghostClass: 'sortable-ghost', //拖拽样式
+        animation: 150, // 拖拽延时，效果更好看
+        onEnd: (e) => { // 这里主要进行数据的处理，拖拽实际并不会改变绑定数据的顺序，这里需要自己做数据的顺序更改
+          let arr = this.list // 获取表数据
+          arr.splice(e.newIndex, 0, arr.splice(e.oldIndex, 1)[0]) // 数据处理
+          
+          this.$nextTick(function () {
+            this.list = arr
 
+            productTypesSaveApi({
+              ...this.hoverRowParams,
+              sort: e.newIndex
+            }).then(res => {
+              // this.submitLoading = false
+            }).catch(error => {
+              // this.listLoading = false
+            })
+          })
+        }
+      })
+    },
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.sortable-ghost {
+  opacity: 0.4;
+  background-color: #F4E2C9;
+}
+</style>

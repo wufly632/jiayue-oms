@@ -76,7 +76,6 @@ export default {
   created() {
     this.getList()
   },
-
   methods: {
     getList() {
       this.listLoading = true
@@ -135,7 +134,6 @@ export default {
         bigPicture: ''
       }
     },
-
   }
 }
 </script>
