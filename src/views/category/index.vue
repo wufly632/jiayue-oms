@@ -8,10 +8,11 @@
       v-loading="listLoading"
       :data="list"
       border
+      row-key="id"
       style="width: 100%;"
       @cell-mouse-enter="handleRow"
     >
-      <el-table-column prop="sort" label="序号" width="58" align="center"></el-table-column>
+      <el-table-column type="index" label="序号" width="58" align="center"></el-table-column>
       <el-table-column prop="name" label="类目名称" align="center"></el-table-column>
       <el-table-column prop="enName" label="类目英文名称" align="center"></el-table-column>
       <el-table-column prop="status" label="类目状态" align="center">
@@ -140,7 +141,7 @@ export default {
               ...this.hoverRowParams,
               sort: e.newIndex
             }).then(res => {
-              // this.submitLoading = false
+              // this.getList()
             }).catch(error => {
               // this.listLoading = false
             })
