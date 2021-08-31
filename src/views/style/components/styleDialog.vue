@@ -25,6 +25,7 @@
             :on-success="handleBigImageSuccess"
             :before-upload="beforeImageUpload"
             accept="image/gif, image/jpeg, image/png"
+            :headers="uploadHeaders"
             :show-file-list="false">
             <img v-if="params.bigPicture" :src="params.bigPicture" width="100%" />
             <i v-else class="el-icon-plus"></i>
