@@ -99,7 +99,7 @@ export default {
         // 访问 UEditor 静态资源的根路径，可参考 https://hc199421.gitee.io/vue-ueditor-wrap/#/faq
         UEDITOR_HOME_URL: "/UEditor/",
         // 服务端接口（这个地址是我为了方便各位体验文件上传功能搭建的临时接口，请勿在生产环境使用！！！）
-        serverUrl: "https://jiayue-oms.wufly.cn/ueditor",
+        serverUrl: "https://oms.jiayue.store/ueditor",
         initialFrameHeight: 450,
       },
     };
